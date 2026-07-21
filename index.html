@@ -27,6 +27,8 @@
             display: none; /* Hidden until the user interacts */
             max-width: 600px;
             padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
         h1 {
             font-size: 2.5rem;
@@ -56,7 +58,7 @@
 
         /* Radio Station Controls Styling */
         .radio-card {
-            margin-top: 40px;
+            margin-top: 30px;
             padding: 20px 25px;
             background: #1e1e1e;
             border: 1px solid #333;
@@ -90,54 +92,6 @@
             font-weight: bold;
             letter-spacing: 1px;
             color: #00ff88;
-        }
-
-        /* Animated Pride Bouncy Tagline Styling */
-        .tagline {
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-top: 2px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.3em;
-        }
-        .tagline .word {
-            display: inline-block;
-            white-space: nowrap;
-        }
-        .tagline span {
-            display: inline-block;
-            animation: bounce 1.2s infinite ease-in-out alternate;
-        }
-
-        /* Pride Color Palette Cycle */
-        .tagline span:nth-child(6n+1) { color: #e70000; } /* Red */
-        .tagline span:nth-child(6n+2) { color: #ff8c00; } /* Orange */
-        .tagline span:nth-child(6n+3) { color: #ffef00; } /* Yellow */
-        .tagline span:nth-child(6n+4) { color: #00811f; } /* Green */
-        .tagline span:nth-child(6n+5) { color: #0044ff; } /* Blue */
-        .tagline span:nth-child(6n+6) { color: #760089; } /* Purple */
-
-        /* Staggered Bounce Animation Delays */
-        .tagline span:nth-child(1) { animation-delay: 0.0s; }
-        .tagline span:nth-child(2) { animation-delay: 0.1s; }
-        .tagline span:nth-child(3) { animation-delay: 0.2s; }
-        .tagline span:nth-child(4) { animation-delay: 0.3s; }
-        .tagline span:nth-child(5) { animation-delay: 0.4s; }
-        .tagline span:nth-child(6) { animation-delay: 0.5s; }
-        .tagline span:nth-child(7) { animation-delay: 0.6s; }
-        .tagline span:nth-child(8) { animation-delay: 0.7s; }
-
-        @keyframes bounce {
-            0% {
-                transform: translateY(0);
-                text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
-            }
-            100% {
-                transform: translateY(-7px);
-                text-shadow: 0 0 12px currentColor;
-            }
         }
 
         .radio-controls {
@@ -178,6 +132,93 @@
             accent-color: #00ff88;
             cursor: pointer;
         }
+
+        /* Inspirational Quotes Slideshow Section */
+        .quotes-card {
+            margin-top: 25px;
+            padding: 25px 20px;
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .quotes-header {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #00ff88;
+            margin-bottom: 15px;
+        }
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            min-height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .quote-slide {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: #ffffff;
+            line-height: 1.5;
+            padding: 0 35px;
+            display: none; /* Controlled by JS */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .quote-slide.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.05);
+            color: #00ff88;
+            border: 1px solid #333;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .slide-nav:hover {
+            background: #00ff88;
+            color: #121212;
+        }
+        .slide-prev { left: 0; }
+        .slide-next { right: 0; }
+        .dots-container {
+            display: flex;
+            gap: 6px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #444;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .dot.active {
+            background-color: #00ff88;
+            transform: scale(1.2);
+        }
     </style>
 </head>
 <body>
@@ -200,17 +241,6 @@
                 <span class="station-name">Princess L FM</span>
             </div>
             
-            <!-- Animated Pride Bouncy Tagline -->
-            <div class="tagline">
-                <span class="word"><span>P</span><span>a</span><span>a</span><span>n</span><span>c</span><span>h</span></span>
-                <span class="word"><span>R</span><span>u</span><span>p</span><span>a</span><span>y</span><span>e</span></span>
-                <span class="word"><span>K</span><span>i</span></span>
-                <span class="word"><span>P</span><span>e</span><span>p</span><span>s</span><span>i</span><span>.</span></span>
-                <span class="word"><span>M</span><span>Ǝ</span><span>S</span><span>S</span><span>I</span></span>
-                <span class="word"><span>P</span><span>r</span><span>i</span><span>n</span><span>c</span><span>e</span><span>s</span><span>s</span></span>
-                <span class="word"><span>S</span><span>Ǝ</span><span>x</span><span>y</span></span>
-            </div>
-            
             <div class="radio-controls">
                 <button class="control-btn" id="play-pause-btn" onclick="toggleAudio()" title="Play/Pause">❚❚</button>
                 <button class="control-btn" id="next-btn" onclick="playNextTrack()" title="Next Track">⏭</button>
@@ -219,6 +249,31 @@
                     <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.05" value="1" oninput="adjustVolume(this.value)">
                 </div>
             </div>
+        </div>
+
+        <!-- Inspirational Quotes Slideshow Section -->
+        <div class="quotes-card">
+            <div class="quotes-header">💡 Inspirational Quotes</div>
+            <div class="slideshow-container">
+                <button class="slide-nav slide-prev" onclick="changeQuote(-1)">&#10094;</button>
+                
+                <div class="quote-slide active">"Paanch rupaye ki pepsi, Princess Messi Sexy!"</div>
+                <div class="quote-slide">"Dus rupaye ka dhokla, Argentina ka game hai fukla!"</div>
+                <div class="quote-slide">"Aalu-tamatar kachha hai, Argentina se toh humara mohalla achha hai!"</div>
+                <div class="quote-slide">"Ek, do, teen, char... Argentina bahar, bahar, bahar!"</div>
+                <div class="quote-slide">"Chai me patti, doodh me malai... Argentina team ki ho gayi pitai!"</div>
+                <div class="quote-slide">"Blue aur white ka drama hai bhari, Argentina pe baaki sab padenge bhari!"</div>
+                <div class="quote-slide">"Gali gali me shor hai, Argentina ka defence kamzor hai!"</div>
+                <div class="quote-slide">"100 me se 90 dhokha, Argentina ne phir gawa diya mauka!"</div>
+                <div class="quote-slide">"Nadi kinare baitha hai saanp... opponent ko dekh ke Argentina gaya kaamp!"</div>
+                <div class="quote-slide">"Na chale pass, na chali tiki-taka... Argentina ka baj gaya baaja!"</div>
+                <div class="quote-slide">"Gaadi ataki second gear me, Argentina baithi hai fear me!"</div>
+                <div class="quote-slide">"Samose me aalu, chai me chini... Argentina ki game lagti hai feeki!"</div>
+                <div class="quote-slide">"Jitna bhi karlo zor, Argentina ka khataam hai dor!"</div>
+
+                <button class="slide-nav slide-next" onclick="changeQuote(1)">&#10095;</button>
+            </div>
+            <div class="dots-container" id="dots-container"></div>
         </div>
     </div>
 
@@ -254,6 +309,10 @@
             });
 
             calculateDays();
+            initQuotes();
+
+            // Automatically check and update the counter every minute so open tabs refresh at 12 AM Central
+            setInterval(calculateDays, 60000);
         }
 
         function toggleAudio() {
@@ -281,18 +340,83 @@
         }
 
         function calculateDays() {
-            // Set base start date: July 20, 2026 (Day 1)
-            const startDate = new Date(2026, 6, 20); // Note: Month is 0-indexed (6 = July)
-            const today = new Date();
+            // Base start date string in YYYY-MM-DD
+            const startChicagoStr = "2026-07-20T00:00:00";
+            
+            // Extract the current date in 'America/Chicago' timezone regardless of client location
+            const now = new Date();
+            const chicagoFormatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: 'America/Chicago',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+            
+            const parts = chicagoFormatter.formatToParts(now);
+            const month = parts.find(p => p.type === 'month').value;
+            const day = parts.find(p => p.type === 'day').value;
+            const year = parts.find(p => p.type === 'year').value;
+            
+            const todayChicagoStr = `${year}-${month}-${day}T00:00:00`;
 
-            // Normalize both dates to local midnight to eliminate time-of-day offsets
-            const startMidnight = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-            const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            // Calculate calendar day difference
+            const startDate = new Date(startChicagoStr);
+            const todayDate = new Date(todayChicagoStr);
 
-            const timeDiff = todayMidnight - startMidnight;
+            const timeDiff = todayDate - startDate;
             const daysPassed = Math.floor(timeDiff / (1000 * 60 * 60 * 24)) + 1;
 
             document.getElementById('days-counter').innerText = daysPassed >= 1 ? daysPassed : 1;
+        }
+
+        /* Quotes Slideshow Logic */
+        let currentQuoteIndex = 0;
+        let quoteInterval;
+
+        function initQuotes() {
+            const slides = document.querySelectorAll('.quote-slide');
+            const dotsContainer = document.getElementById('dots-container');
+
+            // Generate dot indicators dynamically
+            slides.forEach((_, idx) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (idx === 0) dot.classList.add('active');
+                dot.onclick = () => showQuote(idx);
+                dotsContainer.appendChild(dot);
+            });
+
+            // Start auto slideshow
+            startQuoteTimer();
+        }
+
+        function showQuote(index) {
+            const slides = document.querySelectorAll('.quote-slide');
+            const dots = document.querySelectorAll('.dot');
+
+            if (index >= slides.length) currentQuoteIndex = 0;
+            else if (index < 0) currentQuoteIndex = slides.length - 1;
+            else currentQuoteIndex = index;
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            slides[currentQuoteIndex].classList.add('active');
+            if (dots[currentQuoteIndex]) dots[currentQuoteIndex].classList.add('active');
+
+            // Reset timer on manual navigation
+            startQuoteTimer();
+        }
+
+        function changeQuote(direction) {
+            showQuote(currentQuoteIndex + direction);
+        }
+
+        function startQuoteTimer() {
+            clearInterval(quoteInterval);
+            quoteInterval = setInterval(() => {
+                changeQuote(1);
+            }, 4000); // Switched to 4 seconds interval to match comment
         }
     </script>
 </body>
