@@ -228,25 +228,24 @@
     <script>
         const audioFiles = [
             "tracks/audio.mp3",
+            "tracks/iloveyou.mp3",
             "tracks/argentinaaaa.mp3",
             "tracks/cucu.mp3",
             "tracks/final.mp3"
         ];
 
         const audio = document.getElementById('bg-audio');
-        let currentTrackIndex = 0;
+        let currentTrackIndex = 0; // Always start at index 0 (audio.mp3)
 
-        function setInitialTrack() {
-            currentTrackIndex = Math.floor(Math.random() * audioFiles.length);
-            audio.src = audioFiles[currentTrackIndex];
-        }
-
-        setInitialTrack();
+        // Set audio source strictly to the first track on page load
+        audio.src = audioFiles[0];
 
         function startPage() {
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('content').style.display = 'block';
             
+            // Explicitly play from the beginning
+            audio.currentTime = 0;
             audio.play().then(() => {
                 document.getElementById('play-pause-btn').innerText = '❚❚';
             }).catch((error) => {
